@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:generated/item",
+  "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "firstmod:first_item"
+    "layer0": "firstmod:item/first_item"
   }
 }
