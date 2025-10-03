@@ -1,0 +1,7 @@
+{
+  "parent": "shadowstonfa:item/tonfa/base",
+  "textures": {
+    "0": "shadowstonfa:item/netherite",
+    "particle": "shadowstonfa:item/netherite"
+  }
+}

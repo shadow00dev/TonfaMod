@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "#minecraft:netherite_tool_materials",
+  "base": "shadowstonfa:diamond_tonfa",
+  "result": {
+    "id": "shadowstonfa:netherite_tonfa"
+  },
+  "template": "minecraft:netherite_upgrade_smithing_template"
+}

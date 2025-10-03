@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "tonfa",
+  "category": "equipment",
+  "pattern": [
+    " X",
+    "XX",
+    " X"
+  ],
+  "key": {
+    "X": "#minecraft:copper_tool_materials"
+  },
+  "result": {
+    "id": "shadowstonfa:copper_tonfa",
+    "count": 1
+  }
+}

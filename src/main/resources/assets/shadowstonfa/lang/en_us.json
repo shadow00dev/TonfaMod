@@ -1,3 +1,9 @@
 {
-  "item.shadowstonfa.diamond_tonfa": "Diamond Tonfa"
+  "item.shadowstonfa.wood_tonfa": "Wood Tonfa",
+  "item.shadowstonfa.stone_tonfa": "Stone Tonfa",
+  "item.shadowstonfa.copper_tonfa": "Copper Tonfa",
+  "item.shadowstonfa.iron_tonfa": "Iron Tonfa",
+  "item.shadowstonfa.diamond_tonfa": "Diamond Tonfa",
+  "item.shadowstonfa.gold_tonfa": "Gold Tonfa",
+  "item.shadowstonfa.netherite_tonfa": "Netherite Tonfa"
 }
