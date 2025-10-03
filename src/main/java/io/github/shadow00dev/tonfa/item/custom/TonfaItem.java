@@ -5,7 +5,9 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
@@ -30,15 +32,10 @@ public class TonfaItem extends Item {
                 ).component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK));
     }
 
-//    @Override
-//    public InteractionResult use(Level level, Player player, InteractionHand hand) {
-//        player.displayClientMessage(Component.literal("test"), false);
-//        return super.use(level, player, hand);
-//    }
-
     @Override
     public boolean onEntitySwing(ItemStack stack, LivingEntity entity, InteractionHand hand) {
-        entity.getItemInHand(hand).set(ModDataComponents.EXTENDED, Boolean.FALSE.equals(stack.getComponents().get(ModDataComponents.EXTENDED)));
+        stack.set(ModDataComponents.EXTENDED, Boolean.FALSE.equals(stack.getComponents().get(ModDataComponents.EXTENDED)));
         return super.onEntitySwing(stack, entity, hand);
     }
+
 }
