@@ -1,20 +1,9 @@
 {
   "model": {
-    "type": "minecraft:select",
-    "property": "minecraft:component",
-    "component": "shadowstonfa:extended",
-    "cases": [
-      {
-        "when": true,
-        "model": {
-          "type": "minecraft:model",
-          "model": "shadowstonfa:item/copper_extended"
-        }
-      }
-    ],
-    "fallback": {
-      "type": "minecraft:model",
-      "model": "shadowstonfa:item/copper"
+    "type": "minecraft:special",
+    "base": "shadowstonfa:item/copper",
+    "model": {
+      "type": "geckolib:geckolib"
     }
   }
 }
