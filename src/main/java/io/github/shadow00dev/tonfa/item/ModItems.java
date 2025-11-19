@@ -13,13 +13,13 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(TonfaMod.MODID);
 
-    public static DeferredItem<Item> WOOD_TONFA = ITEMS.registerItem("wood_tonfa", properties -> new TonfaItem(properties, ToolMaterial.WOOD));
-    public static DeferredItem<Item> STONE_TONFA = ITEMS.registerItem("stone_tonfa", properties -> new TonfaItem(properties, ToolMaterial.STONE));
-    public static DeferredItem<Item> COPPER_TONFA = ITEMS.registerItem("copper_tonfa", properties -> new TonfaItem(properties, ToolMaterial.COPPER));
-    public static final DeferredItem<Item> IRON_TONFA = ITEMS.registerItem("iron_tonfa", properties -> new TonfaItem(properties, ToolMaterial.IRON));
-    public static final DeferredItem<Item> DIAMOND_TONFA = ITEMS.registerItem("diamond_tonfa", properties -> new TonfaItem(properties, ToolMaterial.DIAMOND));
-    public static final DeferredItem<Item> GOLD_TONFA = ITEMS.registerItem("gold_tonfa", properties -> new TonfaItem(properties, ToolMaterial.GOLD));
-    public static final DeferredItem<Item> NETHERITE_TONFA = ITEMS.registerItem("netherite_tonfa", properties -> new TonfaItem(properties.fireResistant(), ToolMaterial.NETHERITE));
+    //public static DeferredItem<Item> WOOD_TONFA = ITEMS.registerItem("wood_tonfa", properties -> new TonfaItem(properties, ToolMaterial.WOOD, "wood"));
+    //public static DeferredItem<Item> STONE_TONFA = ITEMS.registerItem("stone_tonfa", properties -> new TonfaItem(properties, ToolMaterial.STONE, "stone"));
+    public static DeferredItem<Item> COPPER_TONFA = ITEMS.registerItem("copper_tonfa", properties -> new TonfaItem(properties, ToolMaterial.COPPER, "copper"));
+    //public static final DeferredItem<Item> IRON_TONFA = ITEMS.registerItem("iron_tonfa", properties -> new TonfaItem(properties, ToolMaterial.IRON, "iron"));
+    //public static final DeferredItem<Item> DIAMOND_TONFA = ITEMS.registerItem("diamond_tonfa", properties -> new TonfaItem(properties, ToolMaterial.DIAMOND, "diamond"));
+    //public static final DeferredItem<Item> GOLD_TONFA = ITEMS.registerItem("gold_tonfa", properties -> new TonfaItem(properties, ToolMaterial.GOLD, "gold"));
+    //public static final DeferredItem<Item> NETHERITE_TONFA = ITEMS.registerItem("netherite_tonfa", properties -> new TonfaItem(properties.fireResistant(), ToolMaterial.NETHERITE, "netherite"));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
