@@ -69,7 +69,7 @@ public class TonfaItem extends Item implements GeoItem {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>("test_controller", 20, animTest -> PlayState.STOP)
+        controllers.add(new AnimationController<>("test_controller", 0, animTest -> PlayState.STOP)
                 .triggerableAnim("test_anim", TEST_ANIM));
     }
 
