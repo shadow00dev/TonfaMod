@@ -11,7 +11,7 @@ public class TonfaRenderer extends GeoItemRenderer<TonfaItem> {
         super(new DefaultedItemGeoModel<>(ResourceLocation.fromNamespaceAndPath(TonfaMod.MODID, "tonfa")) {
             @Override
             public ResourceLocation getTextureResource(GeoRenderState state) {
-                return ResourceLocation.fromNamespaceAndPath(TonfaMod.MODID, "textures/item/3d/" + type + ".png");
+                return ResourceLocation.fromNamespaceAndPath(TonfaMod.MODID, "textures/tonfa/" + type);
             }
         });
     }
