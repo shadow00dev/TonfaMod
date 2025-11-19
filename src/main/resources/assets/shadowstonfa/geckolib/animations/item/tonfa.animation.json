@@ -2,7 +2,7 @@
 	"format_version": "1.8.0",
 	"animations": {
 		"animation.tonfa.new": {
-			"loop": true,
+			"loop": false,
 			"animation_length": 1,
 			"bones": {
 				"group": {
