@@ -119,8 +119,5 @@
         2
       ]
     }
-  },
-  "textures": {
-    "particle": "shadowstonfa:item/tonfacopper"
   }
 }
