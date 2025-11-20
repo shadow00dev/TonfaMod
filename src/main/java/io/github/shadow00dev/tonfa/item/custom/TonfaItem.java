@@ -17,6 +17,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoItem;
@@ -43,8 +45,6 @@ public class TonfaItem extends Item implements GeoItem {
 
     private static final RawAnimation FLIP_ANIM = RawAnimation.begin().thenPlay("tonfa.flipped");
     private static final RawAnimation UNFLIP_ANIM = RawAnimation.begin().thenPlay("tonfa.unflipped");
-    private final AnimationController<GeoAnimatable> flipped_anim = new AnimationController<>("flipped_controller", 0, this::setPlayState).triggerableAnim("flip_anim", FLIP_ANIM).receiveTriggeredAnimations();
-    private final AnimationController<GeoAnimatable> unflipped_anim = new AnimationController<>("unflipped_controller", 0, this::setPlayState).triggerableAnim("unflip_anim", UNFLIP_ANIM).receiveTriggeredAnimations();
 
     public String resource = "wood";
     public TonfaItem(Properties properties, ToolMaterial material, String resourceName) {
@@ -78,15 +78,10 @@ public class TonfaItem extends Item implements GeoItem {
         });
     }
 
-    private PlayState setPlayState(AnimationTest<GeoAnimatable> animTest) {
-        if (animTest.getData(DataTickets.ITEM_RENDER_PERSPECTIVE) == ItemDisplayContext.GUI) {
-            return PlayState.STOP;
-        }
-        return PlayState.CONTINUE;
-    }
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(flipped_anim).add(unflipped_anim);
+        controllers.add(new AnimationController<>("flipped_controller", 0, animTest -> PlayState.STOP).triggerableAnim("flip_anim", FLIP_ANIM))
+                .add(new AnimationController<>("unflipped_controller", 0, animTest -> PlayState.STOP).triggerableAnim("unflip_anim", UNFLIP_ANIM));
     }
 
     @Override
@@ -106,7 +101,8 @@ public class TonfaItem extends Item implements GeoItem {
                 triggerAnim(entity, GeoItem.getOrAssignId(entity.getItemInHand(hand), serverLevel), "unflipped_controller", "unflip_anim");
             }
         }
-        if (entity.swingTime == 0 || true) {
+
+        if (entity.pick(Player.DEFAULT_BLOCK_INTERACTION_RANGE, 0.0F, false).getType() != HitResult.Type.BLOCK) {
             stack.set(ModDataComponents.EXTENDED, !extended);
         }
         return super.onEntitySwing(stack, entity, hand);
