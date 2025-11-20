@@ -12,25 +12,20 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.animatable.client.GeoRenderProvider;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.manager.AnimatableManager;
 import software.bernie.geckolib.animatable.processing.AnimationController;
-import software.bernie.geckolib.animatable.processing.AnimationTest;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
@@ -102,7 +97,7 @@ public class TonfaItem extends Item implements GeoItem {
             }
         }
 
-        if (entity.pick(Player.DEFAULT_BLOCK_INTERACTION_RANGE, 0.0F, false).getType() != HitResult.Type.BLOCK) {
+        if (entity.pick(Player.DEFAULT_BLOCK_INTERACTION_RANGE, 0.0F, false).getType() != HitResult.Type.BLOCK || entity.pick(Player.DEFAULT_ENTITY_INTERACTION_RANGE, 0.0F, false).getType() == HitResult.Type.ENTITY ) {
             stack.set(ModDataComponents.EXTENDED, !extended);
         }
         return super.onEntitySwing(stack, entity, hand);
