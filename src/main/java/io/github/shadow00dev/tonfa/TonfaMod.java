@@ -30,14 +30,13 @@ public class TonfaMod {
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
-            //event.insertAfter(Items.NETHERITE_AXE.getDefaultInstance(), ModItems.WOOD_TONFA.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-            //event.insertAfter(ModItems.WOOD_TONFA.toStack(), ModItems.STONE_TONFA.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-            //event.insertAfter(ModItems.STONE_TONFA.toStack(), ModItems.COPPER_TONFA.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-            //event.insertAfter(ModItems.COPPER_TONFA.toStack(), ModItems.IRON_TONFA.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-            //event.insertAfter(ModItems.IRON_TONFA.toStack(), ModItems.GOLD_TONFA.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-            //event.insertAfter(ModItems.GOLD_TONFA.toStack(), ModItems.DIAMOND_TONFA.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-            //event.insertAfter(ModItems.DIAMOND_TONFA.toStack(), ModItems.NETHERITE_TONFA.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-            event.insertFirst(ModItems.COPPER_TONFA.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.NETHERITE_AXE.getDefaultInstance(), ModItems.WOOD_TONFA.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.WOOD_TONFA.toStack(), ModItems.STONE_TONFA.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.STONE_TONFA.toStack(), ModItems.COPPER_TONFA.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.COPPER_TONFA.toStack(), ModItems.IRON_TONFA.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.IRON_TONFA.toStack(), ModItems.GOLD_TONFA.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.GOLD_TONFA.toStack(), ModItems.DIAMOND_TONFA.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(ModItems.DIAMOND_TONFA.toStack(), ModItems.NETHERITE_TONFA.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
     }
 

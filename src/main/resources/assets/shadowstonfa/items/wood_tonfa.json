@@ -1,9 +1,27 @@
 {
   "model": {
-    "type": "minecraft:special",
-    "base": "shadowstonfa:item/wood",
-    "model": {
-      "type": "geckolib:geckolib"
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "shadowstonfa:item/wood_base"
+        },
+        "when": [
+          "fixed",
+          "ground",
+          "on_shelf",
+          "gui"
+        ]
+      }
+    ],
+    "property": "minecraft:display_context",
+    "fallback": {
+      "type": "minecraft:special",
+      "base": "shadowstonfa:item/wood",
+      "model": {
+        "type": "geckolib:geckolib"
+      }
     }
   }
 }
