@@ -3,23 +3,25 @@ package io.github.shadow00dev.tonfa.item.custom;
 import io.github.shadow00dev.tonfa.component.ModDataComponents;
 import io.github.shadow00dev.tonfa.item.client.renderer.TonfaRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.item.properties.conditional.IsKeybindDown;
+import net.minecraft.commands.arguments.MessageArgument;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.animatable.client.GeoRenderProvider;
@@ -56,7 +58,7 @@ public class TonfaItem extends Item implements GeoItem {
                             Optional.of(SoundEvents.SHIELD_BLOCK),
                             Optional.of(SoundEvents.SHIELD_BREAK)
                             )
-                ).equippableUnswappable(EquipmentSlot.OFFHAND).component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK).component(ModDataComponents.EXTENDED, false));
+                ).equippableUnswappable(EquipmentSlot.OFFHAND).component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK).component(ModDataComponents.EXTENDED, false).component(ModDataComponents.LASTSWINGTICK, 0L));
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
         resource = resourceName;
     }
@@ -88,6 +90,7 @@ public class TonfaItem extends Item implements GeoItem {
 
     @Override
     public boolean onEntitySwing(ItemStack stack, @NotNull LivingEntity entity, @NotNull InteractionHand hand) {
+        long currentTick = entity.level().getGameTime();
         boolean extended = Boolean.TRUE.equals(stack.getComponents().get(ModDataComponents.EXTENDED));
         if (entity.level() instanceof ServerLevel serverLevel) {
             if (!extended) {
@@ -99,13 +102,13 @@ public class TonfaItem extends Item implements GeoItem {
             }
         }
 
-        if (!Minecraft.getInstance().options.keyUse.isDown()) {
+        if (!Minecraft.getInstance().options.keyUse.isDown() && currentTick - stack.getComponents().get(ModDataComponents.LASTSWINGTICK) > 10) {
             stack.set(ModDataComponents.EXTENDED, !extended);
+            stack.set(ModDataComponents.LASTSWINGTICK, currentTick);
         }
 
         return super.onEntitySwing(stack, entity, hand);
     }
-
 
     @Override
     public @NotNull InteractionResult use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
