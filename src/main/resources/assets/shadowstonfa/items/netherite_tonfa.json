@@ -5,7 +5,7 @@
       {
         "model": {
           "type": "minecraft:model",
-          "model": "shadowstonfa:item/netherite_base"
+          "model": "shadowstonfa:item/netherite_2d"
         },
         "when": [
           "fixed",

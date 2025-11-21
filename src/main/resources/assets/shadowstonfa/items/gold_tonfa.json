@@ -5,7 +5,7 @@
       {
         "model": {
           "type": "minecraft:model",
-          "model": "shadowstonfa:item/gold_base"
+          "model": "shadowstonfa:item/gold_2d"
         },
         "when": [
           "fixed",
