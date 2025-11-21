@@ -5,7 +5,7 @@
       {
         "model": {
           "type": "minecraft:model",
-          "model": "shadowstonfa:item/stone_base"
+          "model": "shadowstonfa:item/stone_2d"
         },
         "when": [
           "fixed",

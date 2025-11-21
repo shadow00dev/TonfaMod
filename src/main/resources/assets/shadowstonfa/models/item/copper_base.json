@@ -1,7 +1,0 @@
-{
-  "parent": "shadowstonfa:item/tonfa_base",
-  "textures": {
-    "0": "shadowstonfa:item/copper",
-    "particle": "shadowstonfa:item/copper"
-  }
-}

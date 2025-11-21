@@ -5,7 +5,7 @@
       {
         "model": {
           "type": "minecraft:model",
-          "model": "shadowstonfa:item/wood_base"
+          "model": "shadowstonfa:item/wood_2d"
         },
         "when": [
           "fixed",
