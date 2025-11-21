@@ -2,6 +2,8 @@ package io.github.shadow00dev.tonfa.item.custom;
 
 import io.github.shadow00dev.tonfa.component.ModDataComponents;
 import io.github.shadow00dev.tonfa.item.client.renderer.TonfaRenderer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.item.properties.conditional.IsKeybindDown;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -97,11 +99,14 @@ public class TonfaItem extends Item implements GeoItem {
             }
         }
 
-        if (entity.pick(Player.DEFAULT_BLOCK_INTERACTION_RANGE, 0.0F, false).getType() != HitResult.Type.BLOCK || entity.pick(Player.DEFAULT_ENTITY_INTERACTION_RANGE, 0.0F, false).getType() == HitResult.Type.ENTITY ) {
+         Minecraft instance = Minecraft.getInstance();
+        if (!instance.options.keyUse.isDown()) {
             stack.set(ModDataComponents.EXTENDED, !extended);
         }
+
         return super.onEntitySwing(stack, entity, hand);
     }
+
 
     @Override
     public @NotNull InteractionResult use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
