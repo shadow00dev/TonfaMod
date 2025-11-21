@@ -99,8 +99,7 @@ public class TonfaItem extends Item implements GeoItem {
             }
         }
 
-         Minecraft instance = Minecraft.getInstance();
-        if (!instance.options.keyUse.isDown()) {
+        if (!Minecraft.getInstance().options.keyUse.isDown()) {
             stack.set(ModDataComponents.EXTENDED, !extended);
         }
 
