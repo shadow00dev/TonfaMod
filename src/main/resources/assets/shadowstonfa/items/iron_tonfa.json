@@ -5,7 +5,7 @@
       {
         "model": {
           "type": "minecraft:model",
-          "model": "shadowstonfa:item/iron_base"
+          "model": "shadowstonfa:item/iron_2d"
         },
         "when": [
           "fixed",
