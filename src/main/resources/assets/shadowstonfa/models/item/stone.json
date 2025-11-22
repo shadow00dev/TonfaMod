@@ -1,7 +1,7 @@
 {
-  "parent": "shadowstonfa:item/tonfa/base",
+  "parent": "shadowstonfa:item/tonfa",
   "textures": {
-    "0": "shadowstonfa:item/stone",
-    "particle": "shadowstonfa:item/stone"
+    "0": "shadowstonfa:item/3d/stone",
+    "particle": "shadowstonfa:item/3d/stone"
   }
 }

@@ -1,20 +1,27 @@
 {
   "model": {
     "type": "minecraft:select",
-    "property": "minecraft:component",
-    "component": "shadowstonfa:extended",
     "cases": [
       {
-        "when": true,
         "model": {
           "type": "minecraft:model",
-          "model": "shadowstonfa:item/iron_extended"
-        }
+          "model": "shadowstonfa:item/iron_2d"
+        },
+        "when": [
+          "fixed",
+          "ground",
+          "on_shelf",
+          "gui"
+        ]
       }
     ],
+    "property": "minecraft:display_context",
     "fallback": {
-      "type": "minecraft:model",
-      "model": "shadowstonfa:item/iron"
+      "type": "minecraft:special",
+      "base": "shadowstonfa:item/iron",
+      "model": {
+        "type": "geckolib:geckolib"
+      }
     }
   }
 }

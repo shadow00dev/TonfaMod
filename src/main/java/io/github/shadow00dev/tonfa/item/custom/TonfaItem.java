@@ -1,26 +1,54 @@
 package io.github.shadow00dev.tonfa.item.custom;
 
 import io.github.shadow00dev.tonfa.component.ModDataComponents;
+import io.github.shadow00dev.tonfa.item.client.renderer.TonfaRenderer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.commands.arguments.MessageArgument;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.animatable.GeoItem;
+import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
+import software.bernie.geckolib.animatable.client.GeoRenderProvider;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animatable.manager.AnimatableManager;
+import software.bernie.geckolib.animatable.processing.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.renderer.GeoItemRenderer;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
-public class TonfaItem extends Item {
-    public TonfaItem(Properties properties, ToolMaterial material) {
+import static net.minecraft.core.component.DataComponents.BLOCKS_ATTACKS;
+
+public class TonfaItem extends Item implements GeoItem {
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+
+    private static final RawAnimation FLIP_ANIM = RawAnimation.begin().thenPlay("tonfa.flipped");
+    private static final RawAnimation UNFLIP_ANIM = RawAnimation.begin().thenPlay("tonfa.unflipped");
+
+    public String resource = "wood";
+    public TonfaItem(Properties properties, ToolMaterial material, String resourceName) {
         super(properties.sword(material, 1, -1f)
-                .component(DataComponents.BLOCKS_ATTACKS,
+                .component(BLOCKS_ATTACKS,
                         new BlocksAttacks(
                             0.25f,
                             1f,
@@ -30,17 +58,61 @@ public class TonfaItem extends Item {
                             Optional.of(SoundEvents.SHIELD_BLOCK),
                             Optional.of(SoundEvents.SHIELD_BREAK)
                             )
-                ).component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK).component(ModDataComponents.EXTENDED, false));
+                ).equippableUnswappable(EquipmentSlot.OFFHAND).component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK).component(ModDataComponents.EXTENDED, false).component(ModDataComponents.LASTSWINGTICK, 0L));
+        SingletonGeoAnimatable.registerSyncedAnimatable(this);
+        resource = resourceName;
     }
 
     @Override
-    public boolean onEntitySwing(ItemStack stack, LivingEntity entity, InteractionHand hand) {
-        stack.set(ModDataComponents.EXTENDED, Boolean.FALSE.equals(stack.getComponents().get(ModDataComponents.EXTENDED)));
+    public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
+        consumer.accept(new GeoRenderProvider() {
+            private TonfaRenderer renderer;
+            @Override
+            public @NotNull GeoItemRenderer<TonfaItem> getGeoItemRenderer() {
+                if (this.renderer == null) {
+                    this.renderer = new TonfaRenderer(resource);
+                }
+                return this.renderer;
+            }
+        });
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>("flipped_controller", 0, animTest -> PlayState.STOP).triggerableAnim("flip_anim", FLIP_ANIM))
+                .add(new AnimationController<>("unflipped_controller", 0, animTest -> PlayState.STOP).triggerableAnim("unflip_anim", UNFLIP_ANIM));
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return this.cache;
+    }
+
+    @Override
+    public boolean onEntitySwing(ItemStack stack, @NotNull LivingEntity entity, @NotNull InteractionHand hand) {
+        long currentTick = entity.level().getGameTime();
+        long savedTick = stack.getComponents().get(ModDataComponents.LASTSWINGTICK);
+        boolean extended = Boolean.TRUE.equals(stack.getComponents().get(ModDataComponents.EXTENDED));
+
+        if (!Minecraft.getInstance().options.keyUse.isDown() && (currentTick - savedTick > 10)) {
+            stack.set(ModDataComponents.EXTENDED, !extended);
+            stack.set(ModDataComponents.LASTSWINGTICK, currentTick);
+        }
+
+        if (extended != Boolean.TRUE.equals(stack.getComponents().get(ModDataComponents.EXTENDED)) && entity.level() instanceof ServerLevel serverLevel) {
+            if (!extended) {
+                stopTriggeredAnim(entity, GeoItem.getOrAssignId(entity.getItemInHand(hand), serverLevel), "unflipped_controller", "unflip_anim");
+                triggerAnim(entity, GeoItem.getOrAssignId(entity.getItemInHand(hand), serverLevel), "flipped_controller", "flip_anim");
+            } else {
+                stopTriggeredAnim(entity, GeoItem.getOrAssignId(entity.getItemInHand(hand), serverLevel), "flipped_controller", "flip_anim");
+                triggerAnim(entity, GeoItem.getOrAssignId(entity.getItemInHand(hand), serverLevel), "unflipped_controller", "unflip_anim");
+            }
+        }
         return super.onEntitySwing(stack, entity, hand);
     }
 
     @Override
-    public InteractionResult use(Level level, Player player, InteractionHand hand) {
+    public @NotNull InteractionResult use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
         if (hand == InteractionHand.MAIN_HAND) {
             player.stopUsingItem();
             return InteractionResult.FAIL;
