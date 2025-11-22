@@ -99,7 +99,7 @@ public class TonfaItem extends Item implements GeoItem {
             stack.set(ModDataComponents.LASTSWINGTICK, currentTick);
         }
 
-        if (entity.level() instanceof ServerLevel serverLevel) {
+        if (extended != Boolean.TRUE.equals(stack.getComponents().get(ModDataComponents.EXTENDED)) && entity.level() instanceof ServerLevel serverLevel) {
             if (!extended) {
                 stopTriggeredAnim(entity, GeoItem.getOrAssignId(entity.getItemInHand(hand), serverLevel), "unflipped_controller", "unflip_anim");
                 triggerAnim(entity, GeoItem.getOrAssignId(entity.getItemInHand(hand), serverLevel), "flipped_controller", "flip_anim");
