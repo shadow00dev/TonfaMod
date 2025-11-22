@@ -91,7 +91,14 @@ public class TonfaItem extends Item implements GeoItem {
     @Override
     public boolean onEntitySwing(ItemStack stack, @NotNull LivingEntity entity, @NotNull InteractionHand hand) {
         long currentTick = entity.level().getGameTime();
+        long savedTick = stack.getComponents().get(ModDataComponents.LASTSWINGTICK);
         boolean extended = Boolean.TRUE.equals(stack.getComponents().get(ModDataComponents.EXTENDED));
+
+        if (!Minecraft.getInstance().options.keyUse.isDown() && (currentTick - savedTick > 10)) {
+            stack.set(ModDataComponents.EXTENDED, !extended);
+            stack.set(ModDataComponents.LASTSWINGTICK, currentTick);
+        }
+
         if (entity.level() instanceof ServerLevel serverLevel) {
             if (!extended) {
                 stopTriggeredAnim(entity, GeoItem.getOrAssignId(entity.getItemInHand(hand), serverLevel), "unflipped_controller", "unflip_anim");
@@ -101,12 +108,6 @@ public class TonfaItem extends Item implements GeoItem {
                 triggerAnim(entity, GeoItem.getOrAssignId(entity.getItemInHand(hand), serverLevel), "unflipped_controller", "unflip_anim");
             }
         }
-
-        if (!Minecraft.getInstance().options.keyUse.isDown() && currentTick - stack.getComponents().get(ModDataComponents.LASTSWINGTICK) > 10) {
-            stack.set(ModDataComponents.EXTENDED, !extended);
-            stack.set(ModDataComponents.LASTSWINGTICK, currentTick);
-        }
-
         return super.onEntitySwing(stack, entity, hand);
     }
 
