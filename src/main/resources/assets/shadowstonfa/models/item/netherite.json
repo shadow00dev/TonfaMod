@@ -1,7 +1,7 @@
 {
   "parent": "shadowstonfa:item/tonfa",
   "textures": {
-    "0": "shadowstonfa:item/netherite",
-    "particle": "shadowstonfa:item/netherite"
+    "0": "shadowstonfa:item/3d/netherite",
+    "particle": "shadowstonfa:item/3d/netherite"
   }
 }
