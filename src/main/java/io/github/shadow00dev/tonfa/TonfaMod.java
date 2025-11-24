@@ -34,8 +34,6 @@ public class TonfaMod {
     );
 
     public TonfaMod(IEventBus modEventBus, ModContainer modContainer) {
-        NeoForge.EVENT_BUS.register(this);
-
         ModItems.register(modEventBus);
         ModDataComponents.register(modEventBus);
 
@@ -53,10 +51,5 @@ public class TonfaMod {
             event.insertAfter(previous, current, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             previous = current;
         }
-    }
-
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
-
     }
 }
