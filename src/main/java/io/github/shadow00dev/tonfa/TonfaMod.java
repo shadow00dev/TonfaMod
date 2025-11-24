@@ -8,12 +8,8 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -33,7 +29,7 @@ public class TonfaMod {
             ModItems.WIND_TONFA::toStack
     );
 
-    public TonfaMod(IEventBus modEventBus, ModContainer modContainer) {
+    public TonfaMod(IEventBus modEventBus) {
         ModItems.register(modEventBus);
         ModDataComponents.register(modEventBus);
 
