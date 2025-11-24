@@ -2,6 +2,8 @@ package io.github.shadow00dev.tonfa.item.custom;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffect;
@@ -33,8 +35,18 @@ public class FlameTonfaItem extends TonfaItem {
                 fireball.setPos(player.getEyePosition().add(player.getLookAngle().multiply(0.5, 0.5, 0.5)).subtract(0,0.2,0));
                 level.addFreshEntity(fireball);
                 ItemStack item = player.getItemInHand(hand);
-                item.setDamageValue(Math.min(item.getMaxDamage(), item.getDamageValue()+50));
+                item.hurtAndBreak(25, player, hand);
                 player.getCooldowns().addCooldown(item, 100);
+                player.playSound(SoundEvents.FIRECHARGE_USE);
+                level.playSound(
+                        null,
+                        player.getX(),
+                        player.getY(),
+                        player.getZ(),
+                        SoundEvents.FIRECHARGE_USE,
+                        SoundSource.PLAYERS
+                );
+
             }
             player.stopUsingItem();
         }
