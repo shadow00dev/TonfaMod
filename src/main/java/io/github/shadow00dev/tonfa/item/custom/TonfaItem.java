@@ -45,13 +45,18 @@ public class TonfaItem extends Item implements GeoItem {
 
     public String resource = "wood";
     public TonfaItem(Properties properties, ToolMaterial material, String resourceName) {
-        super(applyBaseProperties(properties, material));
+        super(applyBaseProperties(properties, material, 1));
+        SingletonGeoAnimatable.registerSyncedAnimatable(this);
+        resource = resourceName;
+    }
+    public TonfaItem(Properties properties, ToolMaterial material, String resourceName, int attackDamage) {
+        super(applyBaseProperties(properties, material, attackDamage));
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
         resource = resourceName;
     }
 
-    public static Properties applyBaseProperties(Properties properties, ToolMaterial material) {
-        return properties.sword(material, 1, -1f)
+    public static Properties applyBaseProperties(Properties properties, ToolMaterial material, int attackDamage) {
+        return properties.sword(material, attackDamage, -1f)
                 .component(BLOCKS_ATTACKS,
                         new BlocksAttacks(
                                 0.25f,

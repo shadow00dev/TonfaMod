@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "tonfa",
+  "category": "equipment",
+  "pattern": [
+    "X ",
+    "BX",
+    "X "
+  ],
+  "key": {
+    "B": "shadowstonfa:iron_tonfa",
+    "X": "minecraft:fire_charge"
+  },
+  "result": {
+    "id": "shadowstonfa:flame_tonfa",
+    "count": 1
+  }
+}

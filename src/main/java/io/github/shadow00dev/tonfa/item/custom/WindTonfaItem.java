@@ -10,8 +10,6 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Fireball;
-import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.entity.projectile.windcharge.WindCharge;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
@@ -22,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class WindTonfaItem extends TonfaItem {
     public WindTonfaItem(Properties properties, ToolMaterial material, String resourceName) {
-        super(properties.fireResistant(), material, resourceName);
+        super(properties, material, resourceName, 0);
     }
 
     @Override
