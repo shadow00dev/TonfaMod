@@ -3,17 +3,16 @@ package io.github.shadow00dev.tonfa.item.custom;
 import io.github.shadow00dev.tonfa.component.ModDataComponents;
 import io.github.shadow00dev.tonfa.item.client.renderer.TonfaRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.commands.arguments.MessageArgument;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -21,7 +20,6 @@ import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.animatable.client.GeoRenderProvider;
@@ -47,20 +45,29 @@ public class TonfaItem extends Item implements GeoItem {
 
     public String resource = "wood";
     public TonfaItem(Properties properties, ToolMaterial material, String resourceName) {
-        super(properties.sword(material, 1, -1f)
-                .component(BLOCKS_ATTACKS,
-                        new BlocksAttacks(
-                            0.25f,
-                            1f,
-                            List.of(new BlocksAttacks.DamageReduction(90f, Optional.empty(), 0f, 1f)),
-                            new BlocksAttacks.ItemDamageFunction(3f, 1f, 1f),
-                            Optional.of(DamageTypeTags.BYPASSES_SHIELD),
-                            Optional.of(SoundEvents.SHIELD_BLOCK),
-                            Optional.of(SoundEvents.SHIELD_BREAK)
-                            )
-                ).equippableUnswappable(EquipmentSlot.OFFHAND).component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK).component(ModDataComponents.EXTENDED, false).component(ModDataComponents.LASTSWINGTICK, 0L));
+        super(applyBaseProperties(properties, material, 1));
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
         resource = resourceName;
+    }
+    public TonfaItem(Properties properties, ToolMaterial material, String resourceName, int attackDamage) {
+        super(applyBaseProperties(properties, material, attackDamage));
+        SingletonGeoAnimatable.registerSyncedAnimatable(this);
+        resource = resourceName;
+    }
+
+    public static Properties applyBaseProperties(Properties properties, ToolMaterial material, int attackDamage) {
+        return properties.sword(material, attackDamage, -1f)
+                .component(BLOCKS_ATTACKS,
+                        new BlocksAttacks(
+                                0.25f,
+                                1f,
+                                List.of(new BlocksAttacks.DamageReduction(90f, Optional.empty(), 0f, 1f)),
+                                new BlocksAttacks.ItemDamageFunction(3f, 1f, 1f),
+                                Optional.of(DamageTypeTags.BYPASSES_SHIELD),
+                                Optional.of(SoundEvents.SHIELD_BLOCK),
+                                Optional.of(SoundEvents.SHIELD_BREAK)
+                        )
+                ).equippableUnswappable(EquipmentSlot.OFFHAND).component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK).component(ModDataComponents.EXTENDED, false).component(ModDataComponents.LASTSWINGTICK, 0L);
     }
 
     @Override

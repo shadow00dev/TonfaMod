@@ -1,0 +1,7 @@
+{
+  "parent": "shadowstonfa:item/tonfa",
+  "textures": {
+    "0": "shadowstonfa:item/3d/flame",
+    "particle": "shadowstonfa:item/3d/flame"
+  }
+}
