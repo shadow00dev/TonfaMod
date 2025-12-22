@@ -3,10 +3,8 @@ package io.github.shadow00dev.tonfa.item.custom;
 import io.github.shadow00dev.tonfa.component.ModDataComponents;
 import io.github.shadow00dev.tonfa.item.client.renderer.TonfaRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.InteractionHand;
@@ -98,7 +96,7 @@ public class TonfaItem extends Item implements GeoItem {
     @Override
     public boolean onEntitySwing(ItemStack stack, @NotNull LivingEntity entity, @NotNull InteractionHand hand) {
         long currentTick = entity.level().getGameTime();
-        long savedTick = stack.getComponents().get(ModDataComponents.LASTSWINGTICK);
+        long savedTick = stack.getComponents().getOrDefault(ModDataComponents.LASTSWINGTICK, 0L);
         boolean extended = Boolean.TRUE.equals(stack.getComponents().get(ModDataComponents.EXTENDED));
 
         if (!Minecraft.getInstance().options.keyUse.isDown() && (currentTick - savedTick > 10)) {
