@@ -3,7 +3,9 @@ package io.github.shadow00dev.tonfa.item.custom;
 import io.github.shadow00dev.tonfa.component.ModDataComponents;
 import io.github.shadow00dev.tonfa.item.client.renderer.TonfaRenderer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
@@ -16,6 +18,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.component.BlocksAttacks;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoItem;
@@ -31,6 +35,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import static net.minecraft.core.component.DataComponents.BLOCKS_ATTACKS;
@@ -40,6 +45,14 @@ public class TonfaItem extends Item implements GeoItem {
 
     private static final RawAnimation FLIP_ANIM = RawAnimation.begin().thenPlay("tonfa.flipped");
     private static final RawAnimation UNFLIP_ANIM = RawAnimation.begin().thenPlay("tonfa.unflipped");
+
+    private static final Set<ResourceKey<Enchantment>> ALLOWED_ENCHANTMENTS = Set.of(
+            Enchantments.SHARPNESS,
+            Enchantments.KNOCKBACK,
+            Enchantments.LOOTING,
+            Enchantments.SMITE,
+            Enchantments.BANE_OF_ARTHROPODS
+    );
 
     public String resource = "wood";
     public TonfaItem(Properties properties, ToolMaterial material, String resourceName) {
@@ -123,5 +136,10 @@ public class TonfaItem extends Item implements GeoItem {
             return InteractionResult.FAIL;
         }
         return super.use(level, player, hand);
+    }
+
+    @Override
+    public boolean supportsEnchantment(@NotNull ItemStack stack, @NotNull Holder<Enchantment> enchantment) {
+        return super.supportsEnchantment(stack, enchantment) || ALLOWED_ENCHANTMENTS.contains(enchantment.getKey());
     }
 }
