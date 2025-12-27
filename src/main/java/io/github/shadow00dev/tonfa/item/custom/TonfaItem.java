@@ -21,15 +21,15 @@ import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.animatable.client.GeoRenderProvider;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.manager.AnimatableManager;
-import software.bernie.geckolib.animatable.processing.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.animation.object.PlayState;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
@@ -86,7 +86,7 @@ public class TonfaItem extends Item implements GeoItem {
         consumer.accept(new GeoRenderProvider() {
             private TonfaRenderer renderer;
             @Override
-            public @NotNull GeoItemRenderer<TonfaItem> getGeoItemRenderer() {
+            public GeoItemRenderer<TonfaItem> getGeoItemRenderer() {
                 if (this.renderer == null) {
                     this.renderer = new TonfaRenderer(resource);
                 }
@@ -107,7 +107,7 @@ public class TonfaItem extends Item implements GeoItem {
     }
 
     @Override
-    public boolean onEntitySwing(ItemStack stack, @NotNull LivingEntity entity, @NotNull InteractionHand hand) {
+    public boolean onEntitySwing(ItemStack stack, LivingEntity entity, @NonNull InteractionHand hand) {
         long currentTick = entity.level().getGameTime();
         long savedTick = stack.getComponents().getOrDefault(ModDataComponents.LASTSWINGTICK, 0L);
         boolean extended = Boolean.TRUE.equals(stack.getComponents().get(ModDataComponents.EXTENDED));
@@ -118,10 +118,12 @@ public class TonfaItem extends Item implements GeoItem {
         }
 
         if (extended != Boolean.TRUE.equals(stack.getComponents().get(ModDataComponents.EXTENDED)) && entity.level() instanceof ServerLevel serverLevel) {
+            long item = GeoItem.getOrAssignId(entity.getItemInHand(hand), serverLevel);
             if (!extended) {
-                stopTriggeredAnim(entity, GeoItem.getOrAssignId(entity.getItemInHand(hand), serverLevel), "unflipped_controller", "unflip_anim");
-                triggerAnim(entity, GeoItem.getOrAssignId(entity.getItemInHand(hand), serverLevel), "flipped_controller", "flip_anim");
+                stopTriggeredAnim(entity, item, "unflipped_controller", "unflip_anim");
+                triggerAnim(entity, item, "flipped_controller", "flip_anim");
             } else {
+                System.out.println("working");
                 stopTriggeredAnim(entity, GeoItem.getOrAssignId(entity.getItemInHand(hand), serverLevel), "flipped_controller", "flip_anim");
                 triggerAnim(entity, GeoItem.getOrAssignId(entity.getItemInHand(hand), serverLevel), "unflipped_controller", "unflip_anim");
             }
@@ -130,7 +132,7 @@ public class TonfaItem extends Item implements GeoItem {
     }
 
     @Override
-    public @NotNull InteractionResult use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
+    public @NonNull InteractionResult use(@NonNull Level level, @NonNull Player player, @NonNull InteractionHand hand) {
         if (hand == InteractionHand.MAIN_HAND) {
             player.stopUsingItem();
             return InteractionResult.FAIL;
@@ -139,7 +141,7 @@ public class TonfaItem extends Item implements GeoItem {
     }
 
     @Override
-    public boolean supportsEnchantment(@NotNull ItemStack stack, @NotNull Holder<Enchantment> enchantment) {
+    public boolean supportsEnchantment(@NonNull ItemStack stack, @NonNull Holder<Enchantment> enchantment) {
         return super.supportsEnchantment(stack, enchantment) || ALLOWED_ENCHANTMENTS.contains(enchantment.getKey());
     }
 }

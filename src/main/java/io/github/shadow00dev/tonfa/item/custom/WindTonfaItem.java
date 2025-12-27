@@ -10,13 +10,12 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.windcharge.WindCharge;
+import net.minecraft.world.entity.projectile.hurtingprojectile.windcharge.WindCharge;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 public class WindTonfaItem extends TonfaItem {
     public WindTonfaItem(Properties properties, ToolMaterial material, String resourceName) {
@@ -24,11 +23,11 @@ public class WindTonfaItem extends TonfaItem {
     }
 
     @Override
-    public @NotNull InteractionResult use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
+    public @NonNull InteractionResult use(@NonNull Level level, @NonNull Player player, @NonNull InteractionHand hand) {
         if (hand == InteractionHand.MAIN_HAND) {
             if (!player.getCooldowns().isOnCooldown(player.getItemInHand(hand)) && !level.isClientSide()) {
                 Vec3 vec = player.getEyePosition().add(player.getLookAngle().multiply(0.5, 0.5, 0.5));
-                WindCharge windcharge = new WindCharge(player, level, vec.x, vec.y, vec.z);;
+                WindCharge windcharge = new WindCharge(player, level, vec.x, vec.y, vec.z);
                 windcharge.setDeltaMovement(player.getLookAngle().multiply(1,1,1));
                 level.addFreshEntity(windcharge);
                 ItemStack item = player.getItemInHand(hand);
@@ -51,7 +50,7 @@ public class WindTonfaItem extends TonfaItem {
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {
+    public void inventoryTick(@NonNull ItemStack stack, ServerLevel level, @NonNull Entity entity, EquipmentSlot slot) {
         if (!level.isClientSide() && entity instanceof Player player) {
             if (player.isHolding(stack.getItem())) {
                 if (player.getXRot() > 70) {
