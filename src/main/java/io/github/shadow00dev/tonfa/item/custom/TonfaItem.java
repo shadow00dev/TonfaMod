@@ -102,7 +102,7 @@ public class TonfaItem extends Item implements GeoItem {
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public @NonNull AnimatableInstanceCache getAnimatableInstanceCache() {
         return this.cache;
     }
 
@@ -123,9 +123,8 @@ public class TonfaItem extends Item implements GeoItem {
                 stopTriggeredAnim(entity, item, "unflipped_controller", "unflip_anim");
                 triggerAnim(entity, item, "flipped_controller", "flip_anim");
             } else {
-                System.out.println("working");
-                stopTriggeredAnim(entity, GeoItem.getOrAssignId(entity.getItemInHand(hand), serverLevel), "flipped_controller", "flip_anim");
-                triggerAnim(entity, GeoItem.getOrAssignId(entity.getItemInHand(hand), serverLevel), "unflipped_controller", "unflip_anim");
+                stopTriggeredAnim(entity, item, "flipped_controller", "flip_anim");
+                triggerAnim(entity, item, "unflipped_controller", "unflip_anim");
             }
         }
         return super.onEntitySwing(stack, entity, hand);
