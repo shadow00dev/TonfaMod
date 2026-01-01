@@ -2,7 +2,6 @@ package io.github.shadow00dev.tonfa.item.custom;
 
 import io.github.shadow00dev.tonfa.component.ModDataComponents;
 import io.github.shadow00dev.tonfa.item.client.renderer.TonfaRenderer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
@@ -112,7 +111,7 @@ public class TonfaItem extends Item implements GeoItem {
         long savedTick = stack.getComponents().getOrDefault(ModDataComponents.LASTSWINGTICK, 0L);
         boolean extended = Boolean.TRUE.equals(stack.getComponents().get(ModDataComponents.EXTENDED));
 
-        if (!Minecraft.getInstance().options.keyUse.isDown() && (currentTick - savedTick > 10)) {
+        if (entity.swinging && currentTick - savedTick > 10) {
             stack.set(ModDataComponents.EXTENDED, !extended);
             stack.set(ModDataComponents.LASTSWINGTICK, currentTick);
         }
