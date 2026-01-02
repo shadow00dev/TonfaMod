@@ -3,7 +3,7 @@
 	"animations": {
 		"tonfa.flipped": {
 			"loop": "hold_on_last_frame",
-			"animation_length": 72000,
+			"animation_length": 0.25,
 			"bones": {
 				"group": {
 					"rotation": {
@@ -20,7 +20,7 @@
 		},
 		"tonfa.unflipped": {
 			"loop": "hold_on_last_frame",
-			"animation_length": 72000,
+			"animation_length": 0.25,
 			"bones": {
 				"group": {
 					"rotation": {
