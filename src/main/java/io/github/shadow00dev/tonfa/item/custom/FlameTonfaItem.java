@@ -50,7 +50,7 @@ public class FlameTonfaItem extends TonfaItem {
     }
 
     @Override
-    public void inventoryTick(@NonNull ItemStack stack, ServerLevel level, @NonNull Entity entity, EquipmentSlot slot) {
+    public void inventoryTick(@NonNull ItemStack stack, @NonNull ServerLevel level, @NonNull Entity entity, EquipmentSlot slot) {
         if (!level.isClientSide() && entity instanceof Player player) {
             if (player.isHolding(stack.getItem())) {
                 if (player.isOnFire() && player.getRemainingFireTicks() > 20) {

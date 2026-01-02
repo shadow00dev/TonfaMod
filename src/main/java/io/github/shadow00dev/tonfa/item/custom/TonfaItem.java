@@ -1,5 +1,6 @@
 package io.github.shadow00dev.tonfa.item.custom;
 
+import com.google.common.base.Suppliers;
 import io.github.shadow00dev.tonfa.component.ModDataComponents;
 import io.github.shadow00dev.tonfa.item.client.renderer.TonfaRenderer;
 import net.minecraft.core.Holder;
@@ -36,6 +37,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import static net.minecraft.core.component.DataComponents.BLOCKS_ATTACKS;
 
@@ -44,6 +46,7 @@ public class TonfaItem extends Item implements GeoItem {
 
     private static final RawAnimation FLIP_ANIM = RawAnimation.begin().thenPlay("tonfa.flipped");
     private static final RawAnimation UNFLIP_ANIM = RawAnimation.begin().thenPlay("tonfa.unflipped");
+    private static final RawAnimation FULLFILP_ANIM = RawAnimation.begin().thenPlay("tonfa.fullflip");
 
     private static final Set<ResourceKey<Enchantment>> ALLOWED_ENCHANTMENTS = Set.of(
             Enchantments.SHARPNESS,
@@ -80,23 +83,22 @@ public class TonfaItem extends Item implements GeoItem {
                 ).equippableUnswappable(EquipmentSlot.OFFHAND).component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK).component(ModDataComponents.EXTENDED, false).component(ModDataComponents.LASTSWINGTICK, 0L);
     }
 
-    @Override
-    public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
-        consumer.accept(new GeoRenderProvider() {
-            private TonfaRenderer renderer;
-            @Override
-            public GeoItemRenderer<TonfaItem> getGeoItemRenderer() {
-                if (this.renderer == null) {
-                    this.renderer = new TonfaRenderer(resource);
-                }
-                return this.renderer;
-            }
-        });
-    }
+@Override
+public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
+    consumer.accept(new GeoRenderProvider() {
+        private final Supplier<TonfaRenderer> renderer = Suppliers.memoize(() -> new TonfaRenderer(resource));
+        @Override
+        public GeoItemRenderer<TonfaItem> getGeoItemRenderer() {
+            return this.renderer.get();
+        }
+    });
+}
+
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>("flipped_controller", 0, animTest -> PlayState.STOP).triggerableAnim("flip_anim", FLIP_ANIM))
+        controllers
+                .add(new AnimationController<>("flipped_controller", 0, animTest -> PlayState.STOP).triggerableAnim("flip_anim", FLIP_ANIM))
                 .add(new AnimationController<>("unflipped_controller", 0, animTest -> PlayState.STOP).triggerableAnim("unflip_anim", UNFLIP_ANIM));
     }
 
@@ -106,12 +108,13 @@ public class TonfaItem extends Item implements GeoItem {
     }
 
     @Override
-    public boolean onEntitySwing(ItemStack stack, LivingEntity entity, @NonNull InteractionHand hand) {
+    public boolean onEntitySwing(@NonNull ItemStack stack, LivingEntity entity, @NonNull InteractionHand hand) {
         long currentTick = entity.level().getGameTime();
         long savedTick = stack.getComponents().getOrDefault(ModDataComponents.LASTSWINGTICK, 0L);
         boolean extended = Boolean.TRUE.equals(stack.getComponents().get(ModDataComponents.EXTENDED));
 
-        if (entity.swinging && currentTick - savedTick > 10) {
+        //entity.swinging &&
+        if (currentTick - savedTick > 10) {
             stack.set(ModDataComponents.EXTENDED, !extended);
             stack.set(ModDataComponents.LASTSWINGTICK, currentTick);
         }
@@ -121,7 +124,8 @@ public class TonfaItem extends Item implements GeoItem {
             if (!extended) {
                 stopTriggeredAnim(entity, item, "unflipped_controller", "unflip_anim");
                 triggerAnim(entity, item, "flipped_controller", "flip_anim");
-            } else {
+            }
+            else {
                 stopTriggeredAnim(entity, item, "flipped_controller", "flip_anim");
                 triggerAnim(entity, item, "unflipped_controller", "unflip_anim");
             }
