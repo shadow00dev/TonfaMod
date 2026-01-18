@@ -10,13 +10,12 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Fireball;
-import net.minecraft.world.entity.projectile.SmallFireball;
+import net.minecraft.world.entity.projectile.hurtingprojectile.Fireball;
+import net.minecraft.world.entity.projectile.hurtingprojectile.SmallFireball;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 public class FlameTonfaItem extends TonfaItem {
     public FlameTonfaItem(Properties properties, ToolMaterial material, String resourceName) {
@@ -24,8 +23,9 @@ public class FlameTonfaItem extends TonfaItem {
     }
 
     @Override
-    public @NotNull InteractionResult use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
+    public @NonNull InteractionResult use(@NonNull Level level, @NonNull Player player, @NonNull InteractionHand hand) {
         if (hand == InteractionHand.MAIN_HAND) {
+
             if (!player.getCooldowns().isOnCooldown(player.getItemInHand(hand)) && !level.isClientSide()) {
                 Fireball fireball = new SmallFireball(level, player, player.getLookAngle().multiply(0.5, 0.5, 0.5));
                 fireball.setPos(player.getEyePosition().add(player.getLookAngle().multiply(0.5, 0.5, 0.5)).subtract(0,0.2,0));
@@ -50,7 +50,7 @@ public class FlameTonfaItem extends TonfaItem {
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {
+    public void inventoryTick(@NonNull ItemStack stack, @NonNull ServerLevel level, @NonNull Entity entity, EquipmentSlot slot) {
         if (!level.isClientSide() && entity instanceof Player player) {
             if (player.isHolding(stack.getItem())) {
                 if (player.isOnFire() && player.getRemainingFireTicks() > 20) {

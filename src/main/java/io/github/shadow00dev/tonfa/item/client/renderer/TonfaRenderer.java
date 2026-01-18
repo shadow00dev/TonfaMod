@@ -1,17 +1,19 @@
 package io.github.shadow00dev.tonfa.item.client.renderer;
-import io.github.shadow00dev.tonfa.TonfaMod;
+
+import static io.github.shadow00dev.tonfa.TonfaMod.MODID;
 import io.github.shadow00dev.tonfa.item.custom.TonfaItem;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.NonNull;
 import software.bernie.geckolib.model.DefaultedItemGeoModel;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
 import software.bernie.geckolib.renderer.base.GeoRenderState;
 
 public class TonfaRenderer extends GeoItemRenderer<TonfaItem> {
     public TonfaRenderer(String type) {
-        super(new DefaultedItemGeoModel<>(ResourceLocation.fromNamespaceAndPath(TonfaMod.MODID, "tonfa")) {
+        super(new DefaultedItemGeoModel<>(Identifier.fromNamespaceAndPath(MODID, "tonfa")) {
             @Override
-            public ResourceLocation getTextureResource(GeoRenderState state) {
-                return ResourceLocation.fromNamespaceAndPath(TonfaMod.MODID, "textures/item/3d/" + type + ".png");
+            public @NonNull Identifier getTextureResource(@NonNull GeoRenderState state) {
+                return Identifier.fromNamespaceAndPath(MODID, "textures/item/3d/" + type + ".png");
             }
         });
     }
