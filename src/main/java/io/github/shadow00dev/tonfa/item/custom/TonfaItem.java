@@ -98,8 +98,10 @@ public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers
-                .add(new AnimationController<>("flipped_controller", 0, animTest -> PlayState.STOP).triggerableAnim("flip_anim", FLIP_ANIM))
-                .add(new AnimationController<>("unflipped_controller", 0, animTest -> PlayState.STOP).triggerableAnim("unflip_anim", UNFLIP_ANIM));
+                .add(new AnimationController<>("flip_controller", 0, animTest -> PlayState.STOP)
+                        .triggerableAnim("flip_anim", FLIP_ANIM)
+                        .triggerableAnim("unflip_anim", UNFLIP_ANIM)
+                );
     }
 
     @Override
@@ -121,12 +123,11 @@ public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
         if (extended != Boolean.TRUE.equals(stack.getComponents().get(ModDataComponents.EXTENDED)) && entity.level() instanceof ServerLevel serverLevel) {
             long item = GeoItem.getOrAssignId(entity.getItemInHand(hand), serverLevel);
             if (!extended) {
-                stopTriggeredAnim(entity, item, "unflipped_controller", "unflip_anim");
-                triggerAnim(entity, item, "flipped_controller", "flip_anim");
-            }
-            else {
-                stopTriggeredAnim(entity, item, "flipped_controller", "flip_anim");
-                triggerAnim(entity, item, "unflipped_controller", "unflip_anim");
+                stopTriggeredAnim(entity, item, "flip_controller", "unflip_anim");
+                triggerAnim(entity, item, "flip_controller", "flip_anim");
+            } else {
+                stopTriggeredAnim(entity, item, "flip_controller", "flip_anim");
+                triggerAnim(entity, item, "flip_controller", "unflip_anim");
             }
         }
         return super.onEntitySwing(stack, entity, hand);
