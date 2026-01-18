@@ -115,7 +115,7 @@ public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
         long savedTick = stack.getComponents().getOrDefault(ModDataComponents.LASTSWINGTICK, 0L);
         boolean extended = Boolean.TRUE.equals(stack.getComponents().get(ModDataComponents.EXTENDED));
 
-        if (entity.swinging && currentTick - savedTick > 10) {
+        if (entity.swinging && (currentTick - savedTick > 10)) {
             stack.set(ModDataComponents.EXTENDED, !extended);
             stack.set(ModDataComponents.LASTSWINGTICK, currentTick);
         }
