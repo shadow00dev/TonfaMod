@@ -5,4 +5,4 @@ The tonfas can block if the tonfa is in the off hand and when you punch it will 
 
 I used [geckolib 5](https://github.com/bernie-g/geckolib) to make the tonfa switching animated
 
-The mod is currently for 1.21.10 and uses neoforge
+The mod is currently for 1.21.11 and uses neoforge
