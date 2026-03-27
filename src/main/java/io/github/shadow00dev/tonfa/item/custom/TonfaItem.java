@@ -22,16 +22,16 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import org.jspecify.annotations.NonNull;
-import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
-import software.bernie.geckolib.animatable.client.GeoRenderProvider;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animatable.manager.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.animation.object.PlayState;
-import software.bernie.geckolib.renderer.GeoItemRenderer;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import com.geckolib.animatable.GeoItem;
+import com.geckolib.animatable.SingletonGeoAnimatable;
+import com.geckolib.animatable.client.GeoRenderProvider;
+import com.geckolib.animatable.instance.AnimatableInstanceCache;
+import com.geckolib.animatable.manager.AnimatableManager;
+import com.geckolib.animation.AnimationController;
+import com.geckolib.animation.RawAnimation;
+import com.geckolib.animation.object.PlayState;
+import com.geckolib.renderer.GeoItemRenderer;
+import com.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,14 +39,12 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import static net.minecraft.core.component.DataComponents.BLOCKS_ATTACKS;
 
 public class TonfaItem extends Item implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     private static final RawAnimation FLIP_ANIM = RawAnimation.begin().thenPlay("tonfa.flipped");
     private static final RawAnimation UNFLIP_ANIM = RawAnimation.begin().thenPlay("tonfa.unflipped");
-    private static final RawAnimation FULLFILP_ANIM = RawAnimation.begin().thenPlay("tonfa.fullflip");
 
     private static final Set<ResourceKey<Enchantment>> ALLOWED_ENCHANTMENTS = Set.of(
             Enchantments.SHARPNESS,
@@ -70,13 +68,14 @@ public class TonfaItem extends Item implements GeoItem {
 
     public static Properties applyBaseProperties(Properties properties, ToolMaterial material, int attackDamage) {
         return properties.sword(material, attackDamage, -1f)
-                .component(BLOCKS_ATTACKS,
-                        new BlocksAttacks(
+                .delayedComponent(
+                        DataComponents.BLOCKS_ATTACKS,
+                        context -> new BlocksAttacks(
                                 0.25f,
                                 1f,
                                 List.of(new BlocksAttacks.DamageReduction(90f, Optional.empty(), 0f, 1f)),
                                 new BlocksAttacks.ItemDamageFunction(3f, 1f, 1f),
-                                Optional.of(DamageTypeTags.BYPASSES_SHIELD),
+                                Optional.of(context.getOrThrow(DamageTypeTags.BYPASSES_SHIELD)),
                                 Optional.of(SoundEvents.SHIELD_BLOCK),
                                 Optional.of(SoundEvents.SHIELD_BREAK)
                         )

@@ -4,9 +4,9 @@ import static io.github.shadow00dev.tonfa.TonfaMod.MODID;
 import io.github.shadow00dev.tonfa.item.custom.TonfaItem;
 import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.NonNull;
-import software.bernie.geckolib.model.DefaultedItemGeoModel;
-import software.bernie.geckolib.renderer.GeoItemRenderer;
-import software.bernie.geckolib.renderer.base.GeoRenderState;
+import com.geckolib.model.DefaultedItemGeoModel;
+import com.geckolib.renderer.GeoItemRenderer;
+import com.geckolib.renderer.base.GeoRenderState;
 
 public class TonfaRenderer extends GeoItemRenderer<TonfaItem> {
     public TonfaRenderer(String type) {
