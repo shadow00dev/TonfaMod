@@ -1,0 +1,106 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"reset": {
+			"loop": true
+		},
+		"punchRight": {
+			"animation_length": 1,
+			"bones": {
+				"right_arm": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.25": {
+							"vector": [-57.8479, 5.3287, 101.9113],
+							"easing": "easeInSine"
+						},
+						"0.5": {
+							"vector": [-90.0983, -4.5678, 138.128],
+							"easing": "easeInBack"
+						},
+						"0.75": {
+							"vector": [-57.8479, 5.3287, 101.9113],
+							"easing": "easeInBack",
+							"easingArgs": [1]
+						},
+						"1.0": {
+							"vector": [0, 0, 0]
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.25": {
+							"vector": [0, -2, 1],
+							"easing": "easeInSine"
+						},
+						"0.5": {
+							"vector": [0, -1.25, 0],
+							"easing": "easeInBack"
+						},
+						"0.75": {
+							"vector": [0, -2, 1],
+							"easing": "easeInBack",
+							"easingArgs": [1]
+						},
+						"1.0": {
+							"vector": [0, 0, 0]
+						}
+					}
+				}
+			}
+		},
+		"punchLeft": {
+			"animation_length": 1,
+			"bones": {
+				"left_arm": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.25": {
+							"vector": [-57.8479, -5.3287, -101.9113],
+							"easing": "easeInSine"
+						},
+						"0.5": {
+							"vector": [-90.0983, 4.5678, -138.128],
+							"easing": "easeInBack"
+						},
+						"0.75": {
+							"vector": [-57.8479, -5.3287, -101.9113],
+							"easing": "easeInBack",
+							"easingArgs": [1]
+						},
+						"1.0": {
+							"vector": [0, 0, 0]
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.25": {
+							"vector": [0, -2, 1],
+							"easing": "easeInSine"
+						},
+						"0.5": {
+							"vector": [0, -1.25, 0],
+							"easing": "easeInBack"
+						},
+						"0.75": {
+							"vector": [0, -2, 1],
+							"easing": "easeInBack",
+							"easingArgs": [1]
+						},
+						"1.0": {
+							"vector": [0, 0, 0]
+						}
+					}
+				}
+			}
+		}
+	}
+}
