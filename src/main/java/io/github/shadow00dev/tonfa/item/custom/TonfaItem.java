@@ -97,7 +97,7 @@ public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers
-                .add(new AnimationController<>("flip_controller", 0, animTest -> PlayState.STOP)
+                .add(new AnimationController<>("flip_controller", 0, _ -> PlayState.STOP)
                         .triggerableAnim("flip_anim", FLIP_ANIM)
                         .triggerableAnim("unflip_anim", UNFLIP_ANIM)
                 );
@@ -114,7 +114,7 @@ public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
         long savedTick = stack.getComponents().getOrDefault(ModDataComponents.LASTSWINGTICK, 0L);
         boolean extended = Boolean.TRUE.equals(stack.getComponents().get(ModDataComponents.EXTENDED));
 
-        if (entity.swinging && (currentTick - savedTick > 10)) {
+        if (entity.isSwinging() && (currentTick - savedTick > 10)) {
             stack.set(ModDataComponents.EXTENDED, !extended);
             stack.set(ModDataComponents.LASTSWINGTICK, currentTick);
         }
